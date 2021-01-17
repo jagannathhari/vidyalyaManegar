@@ -1,0 +1,174 @@
+
+<CMDTextField@MDTextField>:
+    line_spacing: 10
+        
+<ScreenDb>:
+    name:"screendb"
+    MDTabs:
+        id: tabs
+        lock_swiping:True
+
+        Tab:
+            text: 'Student'
+            ScrollView:
+                effect_cls:"ScrollEffect"
+                MDGridLayout:
+                    cols:1
+                    padding:[40,10,40,10]
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    adaptive_height: True
+                    CMDTextField:
+                        id:txt_name
+                        hint_text: "Student Name"
+                    CMDTextField:
+                        id:txt_fname
+                        hint_text: "Father's Name"
+                    CMDTextField:
+                        id:txt_mname
+                        hint_text: "Mother's Name"
+                    CMDTextField:
+                        id:txt_phone
+                        hint_text: "Contact Number"
+                    CMDTextField:
+                        id:txt_addr
+                        hint_text: "Address"
+                    CMDTextField:
+                        id:txt_class
+                        hint_text: "Class"
+                    CMDTextField:
+                        id:txt_section
+                        hint_text: "Section"
+                    CMDTextField:
+                        id:txt_rno
+                        hint_text: "Roll No"
+                        input_filter:root.filter
+                    CMDTextField:
+                        id:txt_ano
+                        hint_text: "Addmission No"
+                        input_filter:root.filter
+                    MDGridLayout:                        
+                        rows: 1
+                        adaptive_height: True
+                        spacing:[20,20]
+                        MDRaisedButton:
+                            text: 'Add'
+                            on_release:root.btn_add_click()   
+                        MDRaisedButton:
+                            text: 'Update'
+                            on_release:root.btn_update_click()
+                        MDRaisedButton:
+                            text: 'Find'
+                            on_release:root.btn_Find_click()
+                        MDRaisedButton:
+                            text: 'Remove'
+                            on_release:root.btn_Remove_click()
+                        MDRaisedButton:
+                            text: 'Clear'
+                            on_release:root.btn_clear_click()
+                        MDIconButton:
+                            icon: 'tools'
+                            pos_hint:{"right":1,"bottom":1}
+                            on_release:root.btn_setting_click()
+
+        Tab:
+            text:"Marks"
+            ScrollView:
+                effect_cls:"ScrollEffect"
+                MDGridLayout:
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    cols:1
+                    padding:[40,40,40,40]
+            
+                    adaptive_height: True
+                    MDLabel:
+                        text:"English Maths Science Computer Hindi Social Music Art"
+                        size_hint: (1, None)
+                   
+                        height: 30
+                    CMDTextField:
+                        id:txt_marks
+                        hint_text:"Enter marks seperated by space"
+                    CMDTextField:
+                        id:txt_an
+                        hint_text: "Addmission No"
+                        input_filter:root.filter
+                    MDGridLayout:
+                        rows:1
+                        spacing: 10
+                        MDRaisedButton:
+                            text: 'Add/Update'
+                            on_release:root.add_marks()
+                        MDRaisedButton:
+                            text: 'Find'
+                            on_release:root.find_marks()
+                        MDRaisedButton:
+                            text: 'Create Report Card'
+                            on_release:root.create_card()
+                        
+<ScreenCard>:
+    name:"screencard"
+    MDCard:
+        size_hint: None, None
+        size: "680dp", "580dp"
+        pos_hint: {"center_x": .5, "center_y": .5}
+        padding: "8dp"
+
+        MDGridLayout:
+            spacing: 5
+            adaptive_height:True
+            rows:3
+            MDLabel:
+                text: (" "*46)+'Sanatan International Academy'+(" "*46)+"\n"
+            MDBoxLayout:
+                adaptive_height:True
+                spacing: 10
+                
+                Image:
+                    size_hint: None, None
+                    size: "128dp", "128dp"
+                    source: "assest/user.png"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                MDLabel:
+                    markup: True
+                    text:"[b]sdf[b]\nn\nm\nr s s\n"
+            
+            MDBoxLayout:
+                cols:1
+                size_hint_y: None
+                height: 400
+                padding:[0,0,0,0]
+                #pos_hint: {"y":.08}
+                pos: (44, 44)
+                spacing:3
+                orientation: 'vertical'
+                MDLabel:
+                    id:txt_0
+                    text:"English "
+                MDLabel:
+                    id:txt_1
+                    text:"Math    "
+                MDLabel:
+                    id:txt_2
+                    text:"Science "
+                MDLabel:
+                    id:txt_3
+                    text:"Computer"
+                MDLabel:
+                    id:txt_4
+                    text:"Hindi   "
+                MDLabel:
+                    id:txt_5
+                    text:"Social   "
+                MDLabel:
+                    id:txt_6
+                    text:"Music   "
+                MDLabel:
+                    id:id:txt_7
+                    text:"Art     "
+                MDBoxLayout:
+                    MDLabel:
+                        text: 'Total'
+                        id:txt_total
+                    MDLabel:
+                        id:txt_percent
+                        text:"Percentage"

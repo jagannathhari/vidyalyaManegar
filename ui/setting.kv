@@ -1,0 +1,58 @@
+#:import App kivy.app.App
+<ScreenSetting>:
+	name:"settings"
+	MDIconButton:
+		icon: 'brightness-6'
+		pos_hint:{"right":1,"top":1}
+		id:btn_theme
+		on_release:root.btn_theme_click()
+	MDBoxLayout:
+		padding:[50,50,50,50]
+		id:layout_setting
+		orientation: 'vertical'
+		# adaptive_height: True
+		# pos_hint: {'center_x': .5, 'center_y': .5}
+
+		MDBoxLayout:
+			size_hint_y: .2
+			MDLabel:
+				text:"Database Backend"
+				size_hint: (None, None)
+				pos_hint: { 'center_y': .5,'center_y': .5}
+
+				width: 400
+				#color:App.get_running_app().opposite_colors
+			MDDropDownItem:
+				id: db_backend
+				text: 'SQLite'
+				pos_hint: { 'center_y': .5,'center_y': .5}
+				on_release: root.menu.open()
+
+		MDBoxLayout:
+			orientation: 'vertical'
+			size_hint_y: None
+			height: 300
+			id:layout_myql
+			MDTextField:
+				id:txt_uname
+		    	hint_text: "User Name"
+		    	line_spacing: 10
+		    	disabled: True if db_backend.current_item =="SQLite" else False
+		    	
+			MDTextField:
+				id:txt_pass
+		    	hint_text: "Password"
+		    	line_spacing: 10
+				disabled: True if db_backend.current_item =="SQLite" else False		    	
+		    MDTextField:
+		    	id:txt_dbname
+		    	hint_text: "Database Name Or path"
+		    	line_spacing: 10
+		    	input_filter: lambda text, from_undo: text[:64 - len(self.text)]
+		    MDRaisedButton:
+		    	pos_hint: {'center_x': .5, 'center_y': .5}
+		    	text:"Apply Changes"
+		    	on_release:root.btn_change_click()
+
+
+	    
