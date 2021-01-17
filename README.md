@@ -9,5 +9,6 @@ pip install -r requirement.txt
 ```
 
 ## ScreenShots
+![Screenshot](screenshots/1.png)
 
-![Alt text](vidyalyaManegar/screenshots/1.png?raw=true )
+![Screenshot](screenshots/2.png)
