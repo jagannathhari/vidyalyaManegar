@@ -36,10 +36,12 @@ vidyalyaManegment
 ```bash
 pip install virtualenv
 ```
-
 ```bash
+virtualenv vidyalyaManegment 
+vidyalyaManegment\scripts\activate
 pip install -r requrements.txt
 ```
+
 
 ### requirement.txt
 
