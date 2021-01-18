@@ -27,8 +27,8 @@ vidyalyaManegment
 ├── ui
 │   ├── screenDatabase.kv
 │   └── setting.kv
-└── vmanegar.py
-|__ requiremts.txt
+├──vmanegar.py
+└── requiremts.txt
 ```
 
 ### setting Up development Environment
