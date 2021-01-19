@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Table, Float
 from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy import MetaData
 from lib.dialog import Dialog
 
@@ -9,11 +10,13 @@ meta = MetaData()
 
 def db(backend, dbname, username="", password="", host="localhost"):
     if backend == "SQLite":
-        engine = create_engine(f'sqlite:///{dbname}', )
+        engine = create_engine(f'sqlite:///{dbname}')
         return engine
     else:
         engine = create_engine(
             f"mysql+pymysql://{username}:{password}@{host}/{dbname}")
+        if not database_exists(engine.url):
+            create_database(engine.url)
         return engine
 
 
@@ -42,18 +45,18 @@ students = Table(
 def create(engine):
     meta.create_all(engine)
     conn = engine.connect()
-
     return conn
 
 
-def get_detail(conn, trans, addmission_no):
-    query = students.select().where(students.c.addmission_no == int(addmission_no))
+def get_detail(conn, addmission_no):
+    query = students.select(). \
+        where(students.c.addmission_no == int(addmission_no))
     result = conn.execute(query)
     result = result.fetchone()
     return result
 
 
-def update_student(connection, trans, addmission_no, name="",
+def update_student(connection, addmission_no, name="",
                    father_name="", mother_name="", phone="",
                    addr="", clss="", roll_no="", section=""):
 
@@ -75,12 +78,11 @@ def update_student(connection, trans, addmission_no, name="",
         .where(students.c.addmission_no == int(addmission_no)) \
         .values(**kwargs_)
     result = connection.execute(update)
-    trans.commit()
-
+    result = connection.execute("commit")
     return result
 
 
-def add_student(connection, trans, addmission_no, name,
+def add_student(connection, addmission_no, name,
                 father_name, mother_name, phone,
                 addr, clss, roll_no, section):
     kwargs = {"addmission_no": int(addmission_no),
@@ -92,11 +94,11 @@ def add_student(connection, trans, addmission_no, name,
               "class": clss,
               "roll_no": int(roll_no),
               "section": section}
-    data = get_detail(connection, trans, addmission_no)
+    data = get_detail(connection, addmission_no)
     if not data:
         insert = students.insert().values(**kwargs)
         result = connection.execute(insert)
-        trans.commit()
+        connection.execute("commit")
         return result
     else:
         d.title = "Exists"
@@ -106,19 +108,21 @@ def add_student(connection, trans, addmission_no, name,
             update_student(**kwargs)
 
 
-def delete(conn, trans, addmission_no):
+def delete(conn, addmission_no):
     delete = students.delete() \
         .where(students.c.addmission_no == int(addmission_no))
     result = conn.execute(delete)
-    trans.commit()
+    conn.execute("commit")
     return result
 
 
-def add_marks(conn, trans, addmission_no, marks):
+def add_marks(conn, addmission_no, marks):
     if len(marks) < 8:
         m_len = 8 - len(marks)
-        marks = marks.split() + [0] * m_len
-    new_marks = list(map(float, marks.split()))
+        marks = marks.split() + ["0"] * m_len
+        marks = " ".join(marks)
+        print(marks)
+    new_marks = list(map(float, marks.split()))[:8]
     subjects = ('english', 'math', 'science', 'computer',
                 'hindi', 'social', 'music', 'art')
     kwargs = dict(zip(subjects, new_marks))
@@ -127,14 +131,14 @@ def add_marks(conn, trans, addmission_no, marks):
         .where(students.c.addmission_no == int(addmission_no)) \
         .values(**kwargs)
     result = conn.execute(update)
-    trans.commit()
+    conn.execute("commit")
     return result
 
 
-def find_marks(conn, trans, addmission_no):
-    data = get_detail(conn, trans, addmission_no)
+def find_marks(conn, addmission_no):
+    data = get_detail(conn, addmission_no)
     marks = ""
     if data:
-        for i in range(8, 15):
+        for i in range(8, 16):
             marks += str(data[i]) + " "
     return marks
