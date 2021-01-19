@@ -1,7 +1,9 @@
 
 <CMDTextField@MDTextField>:
+   
     line_spacing: 10
-        
+    
+
 <ScreenDb>:
     name:"screendb"
     MDTabs:
@@ -50,24 +52,29 @@
                         rows: 1
                         adaptive_height: True
                         spacing:[20,20]
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Add'
+                            icon: 'account-plus'
                             on_release:root.btn_add_click()   
-                        MDRaisedButton:
-                            text: 'Update'
+                        MDFillRoundFlatIconButton:
+                            text: 'Edit Detail'
+                            icon: 'account-edit'
                             on_release:root.btn_update_click()
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Find'
+                            icon: 'account-search'
                             on_release:root.btn_Find_click()
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Remove'
+                            icon: "account-remove"
                             on_release:root.btn_Remove_click()
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Clear'
+                            icon: 'eraser'
                             on_release:root.btn_clear_click()
-                        MDIconButton:
-                            icon: 'tools'
-                            pos_hint:{"right":1,"bottom":1}
+                        MDFillRoundFlatIconButton:
+                            icon: 'tools' 
+                            text: 'setting'                         
                             on_release:root.btn_setting_click()
 
         Tab:
@@ -95,24 +102,95 @@
                     MDGridLayout:
                         rows:1
                         spacing: 10
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Add/Update'
+                            icon: 'account-plus'
                             on_release:root.add_marks()
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Find'
+                            icon: 'account-search'
                             on_release:root.find_marks()
-                        MDRaisedButton:
+                        MDFillRoundFlatIconButton:
                             text: 'Create Report Card'
+                            icon: 'account-details'
                             on_release:root.create_card()
+        Tab:
+            text:"Pay Fee"
+            MDGridLayout:
+                cols:1
+                padding:[40,10,40,10]
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                MDDropDownItem:
+                    id:item_month
+                    text:root.format_date()
+                    on_release:root.select_date()
+                CMDTextField:
+                    id:txt_addn
+                    hint_text: "Addmission Number"
+                    input_filter:root.filter
+                CMDTextField:
+                    id:txt_tuttion_fee
+                    hint_text: "Tution Fee"
+                    
+                    input_filter:root.filter
+                CMDTextField:
+                    id:txt_vvn
+                    hint_text: "VVN"
+                    
+                    input_filter:root.filter
+                CMDTextField:
+                    id:txt_computer_fee
+                    hint_text: "Computer Fee"
+                    
+                    input_filter:root.filter
+                CMDTextField:
+                    id:txt_lab_fee
+                    hint_text: "Lab Fee"
+                    input_filter:root.filter
+                    
+                CMDTextField:
+                    id:txt_extra
+                    hint_text: "Extra"
+                    input_filter:root.filter
+                    
+                CMDTextField:
+                    id:txt_total
+                    hint_text: "Total"
+                    input_filter:root.filter
+                    readonly: True
+                    text:"0"
+                MDBoxLayout:
+                    spacing: 5
+                    MDFillRoundFlatButton:
+                        text:"Total"
+                    MDFillRoundFlatButton:
+                        text:"Pay"
+                    MDFillRoundFlatButton:
+                        text:"Get"
+                    MDFillRoundFlatButton:
+                        text:"Edit"
+                    MDFillRoundFlatButton:
+                        text:"Save Recipt"
+
                         
 <ScreenCard>:
     name:"screencard"
+    MDIconButton:
+        icon: 'download'
+        pos_hint:{"right":1,"top":1}
+        id:btn_save
+        on_release:root.btn_save_click()
+    MDIconButton:
+        icon: 'arrow-left'
+        pos_hint:{"left":1,"top":1}
+        id:btn_back
+        on_release:root.btn_back_click()
     MDCard:
         size_hint: None, None
         size: "680dp", "580dp"
         pos_hint: {"center_x": .5, "center_y": .5}
         padding: "8dp"
-
+        id: card_report
         MDGridLayout:
             spacing: 5
             adaptive_height:True
@@ -130,7 +208,7 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                 MDLabel:
                     markup: True
-                    text:"[b]sdf[b]\nn\nm\nr s s\n"
+                    id:lbl_detail
             
             MDBoxLayout:
                 cols:1
@@ -140,35 +218,14 @@
                 #pos_hint: {"y":.08}
                 pos: (44, 44)
                 spacing:3
-                orientation: 'vertical'
-                MDLabel:
-                    id:txt_0
-                    text:"English "
-                MDLabel:
-                    id:txt_1
-                    text:"Math    "
-                MDLabel:
-                    id:txt_2
-                    text:"Science "
-                MDLabel:
-                    id:txt_3
-                    text:"Computer"
-                MDLabel:
-                    id:txt_4
-                    text:"Hindi   "
-                MDLabel:
-                    id:txt_5
-                    text:"Social   "
-                MDLabel:
-                    id:txt_6
-                    text:"Music   "
-                MDLabel:
-                    id:id:txt_7
-                    text:"Art     "
-                MDBoxLayout:
-                    MDLabel:
-                        text: 'Total'
-                        id:txt_total
-                    MDLabel:
-                        id:txt_percent
-                        text:"Percentage"
+
+                MDTextField:
+                    multiline: True
+                    id:txt_sub
+                    readonly: True
+                MDTextField:
+                    multiline: True
+                    id:txt_marks
+                    readonly: True
+                    halign:"right"
+            
